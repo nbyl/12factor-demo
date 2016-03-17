@@ -1,0 +1,5 @@
+{
+  "name": "12factor demo",
+  "description": "A demo application for a 12 factor application based on spring boot.",
+  "image": "heroku/java"
+}

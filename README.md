@@ -1,6 +1,6 @@
 # 12factor-demo
 
-This is a demo application for a 12 factor application.
+This is a demo application for a [12 factor application](http://12factor.net/) based on spring boot.
 
 ## deis.io
 
