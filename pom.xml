@@ -39,16 +39,19 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>de.codecentric.nbyl.twelvefactor.DemoApplication</mainClass>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-	
+
 
 </project>
