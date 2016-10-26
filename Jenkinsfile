@@ -30,7 +30,7 @@ node {
 
     stage('production deployment') {
         withCredentials([[$class: 'StringBinding', credentialsId: 'deis-token', variable: 'DEIS_TOKEN']]) {
-            sh './gradlew deploy -PappName=tw-facter-staging'
+            sh './gradlew deploy -PappName=tw-facter'
         }
     }
 }
