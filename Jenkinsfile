@@ -14,6 +14,9 @@ node {
     }
 
     stage('staging deployment') {
-        // some block
+
+        withCredentials([[$class: 'StringBinding', credentialsId: 'deis-token', variable: 'DEIS_TOKEN']]) {
+            sh './gradlew deployStaging'
+        }
     }
 }

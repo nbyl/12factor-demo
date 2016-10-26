@@ -13,6 +13,7 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("com.bmuschko:gradle-docker-plugin:3.0.3")
         classpath("gradle.plugin.com.palantir.gradle.gitversion:gradle-git-version:0.5.2")
+        classpath("org._10ne.gradle:rest-gradle-plugin:0.4.2")
     }
 }
 
@@ -21,6 +22,7 @@ apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
 apply plugin: 'com.bmuschko.docker-remote-api'
 apply plugin: "com.palantir.git-version"
+apply plugin: "org.tenne.rest"
 
 import com.bmuschko.gradle.docker.tasks.image.Dockerfile
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
@@ -77,4 +79,8 @@ task buildImage(type: DockerBuildImage) {
 task publishImage(type: DockerPushImage) {
     dependsOn buildImage
     imageName = "nbyl-docker-docker.bintray.io/12factor-demo:${project.version}"
+}
+
+task deployStaging(type: Exec) {
+    commandLine 'curl', '-H', "Authorization: Token ${System.getenv('DEIS_TOKEN')}", '-H', "Content-Type: application/json", '-X', 'POST', "http://deis.app.nicolas-byl.eu/v2/apps/tw-facter-staging/builds -d '{\"image\": \"nbyl-docker-docker.bintray.io/12factor-demo:${project.version}\"}'"
 }
