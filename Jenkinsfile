@@ -1,5 +1,5 @@
 stage('build') {
-    sh './mwn verify package'
+    sh './mwnw verify package'
     echo 'Build successfull!'
 }
 
