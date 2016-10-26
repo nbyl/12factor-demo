@@ -2,9 +2,7 @@ node {
     stage('build') {
         checkout scm
         sh 'ls -la'
-        withMaven(mavenLocalRepo: '', mavenOpts: '', mavenSettingsFilePath: '') {
-            sh 'mvn verify package'
-        }
+        sh './gradlew'
         echo 'Build successfull!'
     }
 
