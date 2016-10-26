@@ -2,7 +2,9 @@ node {
     stage('build') {
         checkout scm
         sh 'ls -la'
-        sh './mvnw verify package'
+        withMaven(mavenLocalRepo: '', mavenOpts: '', mavenSettingsFilePath: '') {
+            sh 'mvn verify package'
+        }
         echo 'Build successfull!'
     }
 
