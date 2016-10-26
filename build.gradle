@@ -66,8 +66,8 @@ task createDockerfile(type: Dockerfile) {
     from 'java:8'
     maintainer 'Nicolas Byl "nicolas.byl@codecentric.de"'
     addFile 'libs/demo.jar', 'app.jar'
-    exposePort 8080
-    entryPoint "java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"
+    exposePort 80
+    entryPoint "java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar", "--server.port=80"
 }
 
 task buildImage(type: DockerBuildImage) {
