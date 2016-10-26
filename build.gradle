@@ -66,8 +66,8 @@ task createDockerfile(type: Dockerfile) {
     from 'java:8'
     maintainer 'Nicolas Byl "nicolas.byl@codecentric.de"'
     addFile 'libs/demo.jar', 'app.jar'
-    exposePort 80
-    defaultCommand "java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar", "--server.port=80"
+    exposePort 8080
+    defaultCommand "java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"
 }
 
 task buildImage(type: DockerBuildImage) {
@@ -84,7 +84,12 @@ task publishImage(type: DockerPushImage) {
 task deployStaging(type: org._10ne.gradle.rest.RestTask) {
     httpMethod = 'post'
     uri = 'http://deis.app.nicolas-byl.eu/v2/apps/tw-facter-staging/builds'
-    requestBody = [image: "nbyl-docker-docker.bintray.io/12factor-demo:${project.version}".toString()]
+    requestBody = [
+            image: "nbyl-docker-docker.bintray.io/12factor-demo:${project.version}".toString(),
+            procfile: [
+                    web: 'java -Djava.security.egd=file:/dev/./urandom -jar /app.jar'
+            ]
+    ]
     contentType = groovyx.net.http.ContentType.JSON
     requestHeaders = [Authorization: "Token ${System.getenv('DEIS_TOKEN')}"]
 }
