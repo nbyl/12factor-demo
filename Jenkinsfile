@@ -27,4 +27,10 @@ node {
     stage('wait for approval by QA') {
         input 'Do you want to deploy this to production?'
     }
+
+    stage('production deployment') {
+        withCredentials([[$class: 'StringBinding', credentialsId: 'deis-token', variable: 'DEIS_TOKEN']]) {
+            sh './gradlew deploy -PappName=tw-facter-staging'
+        }
+    }
 }
