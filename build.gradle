@@ -81,6 +81,10 @@ task publishImage(type: DockerPushImage) {
     imageName = "nbyl-docker-docker.bintray.io/12factor-demo:${project.version}"
 }
 
-task deployStaging(type: Exec) {
-    commandLine 'curl', '-H', "Authorization: Token ${System.getenv('DEIS_TOKEN')}", '-H', "Content-Type: application/json", '-X', 'POST', "http://deis.app.nicolas-byl.eu/v2/apps/tw-facter-staging/builds -d '{\"image\": \"nbyl-docker-docker.bintray.io/12factor-demo:${project.version}\"}'"
+task deployStaging(type: org._10ne.gradle.rest.RestTask) {
+    httpMethod = 'post'
+    uri = 'http://deis.app.nicolas-byl.eu/v2/apps/tw-facter-staging/builds'
+    requestBody = [image: "nbyl-docker-docker.bintray.io/12factor-demo:${project.version}".toString()]
+    contentType = groovyx.net.http.ContentType.JSON
+    requestHeaders = [Authorization: "Token ${System.getenv('DEIS_TOKEN')}"]
 }
