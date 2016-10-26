@@ -23,4 +23,8 @@ node {
         sh 'sleep 10'
         echo 'All Tests Good!'
     }
+
+    stage('wait for approval by QA') {
+        input 'Do you want to deploy this to production?'
+    }
 }
