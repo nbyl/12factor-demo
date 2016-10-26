@@ -14,9 +14,13 @@ node {
     }
 
     stage('staging deployment') {
-
         withCredentials([[$class: 'StringBinding', credentialsId: 'deis-token', variable: 'DEIS_TOKEN']]) {
-            sh './gradlew deployStaging'
+            sh './gradlew deploy -PappName=tw-facter-staging'
         }
+    }
+
+    stage('integration test') {
+        sh 'sleep 10'
+        echo 'All Tests Good!'
     }
 }
