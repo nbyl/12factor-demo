@@ -1,6 +1,6 @@
 node {
     stage('build') {
-        sh './mwnw verify package'
+        sh './mvnw verify package'
         echo 'Build successfull!'
     }
 
