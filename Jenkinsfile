@@ -2,7 +2,7 @@ node {
     stage('build') {
         checkout scm
         sh 'ls -la'
-        sh './gradlew'
+        sh './gradlew build'
         echo 'Build successfull!'
     }
 
