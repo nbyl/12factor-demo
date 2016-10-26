@@ -1,5 +1,5 @@
 stage('build') {
-    // some block
+    sh './mwn verify package'
 }
 
 stage('staging deployment') {
