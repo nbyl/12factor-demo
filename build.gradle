@@ -4,15 +4,22 @@ buildscript {
     }
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("com.bmuschko:gradle-docker-plugin:3.0.3")
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
+apply plugin: 'com.bmuschko.docker-remote-api'
+
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
 
 jar {
     archiveName = "demo.jar"
@@ -25,6 +32,16 @@ repositories {
     mavenCentral()
 }
 
+docker {
+    url 'unix:///var/run/docker.sock'
+
+    registryCredentials {
+        url = 'https://nbyl-docker-docker.bintray.io'
+        username = System.getenv('BINTRAY_USER')
+        password = System.getenv('BINTRAY_KEY')
+    }
+}
+
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter')
@@ -34,4 +51,23 @@ dependencies {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '3.1'
+}
+
+task createDockerfile(type: Dockerfile) {
+    destFile = project.file('build/Dockerfile')
+    from 'java:8'
+    maintainer 'Nicolas Byl "nicolas.byl@codecentric.de"'
+    addFile 'libs/demo.jar', 'app.jar'
+    entryPoint "java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"
+}
+
+task buildImage(type: DockerBuildImage) {
+    dependsOn createDockerfile
+    inputDir = createDockerfile.destFile.parentFile
+    tag = "nbyl-docker-docker.bintray.io/12factor-demo:${project.version}"
+}
+
+task publishImage(type: DockerPushImage) {
+    dependsOn buildImage
+    imageName = "nbyl-docker-docker.bintray.io/12factor-demo:${project.version}"
 }
