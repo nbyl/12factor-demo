@@ -15,12 +15,11 @@ This application contains a demo of continuous delivery pipeline using Deis Work
  The project will be built and deployed using Jenkins and Pipeline Feature. The project will be built using the following stages:
  
  * **build**: The application will be built and tested by unit tests.
- * **publish docker container**: 
- * **staging deployment**:
- * **integration test**:
- * **wait for approval by QA**:
- * **production deployment**:
-TODO: rest of the stages
+ * **publish docker container**: Publish the built container on bintray. 
+ * **staging deployment**: Deploy the container in a staging environment.
+ * **integration test**: Run integration tests against this staging environment (does currently nothing).
+ * **wait for approval by QA**: Wait until someone authorizes the deployment to production.
+ * **production deployment**: Deploy the application in the production environment.
 
 ### Prequisites
 
@@ -32,9 +31,17 @@ TODO: rest of the stages
   * [helm](https://github.com/kubernetes/helm/blob/master/docs/quickstart.md)
   
 ### Deis
-  
-(TODO: Registration and App Setup)  
 
+Before doing anything else, you need to register a user:
+  
+    export DEIS_URL=http://deis.$(minikube ip).nip.io
+    deis register ${DEIS_URL} 
+
+You need to create two applications in your cluster:
+
+    deis create tw-facter-staging --no-remote
+    deis create tw-facter --no-remote
+  
 ### Jenkins
 
 Jenkins will be installed using [helm](https://helm.sh/):
