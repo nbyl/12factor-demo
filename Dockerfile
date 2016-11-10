@@ -3,19 +3,10 @@ FROM java:8
 MAINTAINER Nicolas Byl <nicolas.byl@codecentric.de>
 
 # build application
-RUN mkdir /tmp/build
-ADD . /tmp/build
-WORKDIR /tmp/build
+ADD . /app
+WORKDIR /app
 RUN ./mvnw package
-
-# install application
-RUN cp target/demo.jar /app.jar
-RUN chmod u+x /app.jar
-
-# cleanup image
-WORKDIR /
-RUN rm -rf /tmp/build
 
 EXPOSE 8080
 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app/target/demo.jar"]
