@@ -41,7 +41,7 @@ repositories {
 
 docker {
     url System.getenv('DOCKER_HOST')
-    certPath System.getenv('DOCKER_CERT_PATH')
+    certPath new File(System.getenv('DOCKER_CERT_PATH'))
     apiVersion System.getenv('DOCKER_API_VERSION')
 
     registryCredentials {
