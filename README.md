@@ -2,11 +2,12 @@
 
 This is a demo application for a [12 factor application](http://12factor.net/) based on spring boot.
 
-## heroku
+It shows some deployments for Deis Workflow in it's branches:
 
-This application can also be deployed to heroku using this button:
+* [Buildpack Deployment](https://deis.com/docs/workflow/applications/using-buildpacks/): [master](https://github.com/nbyl/12factor-demo)
+* [Dockerfile Deployment](https://deis.com/docs/workflow/applications/using-dockerfiles/): [dockerfile](https://github.com/nbyl/12factor-demo/tree/dockerfile)
+* [Docker Image Deployment](https://deis.com/docs/workflow/applications/using-docker-images/): [jenkins-ci](https://github.com/nbyl/12factor-demo/tree/jenkins-ci) 
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ## Deis Workflow
 
@@ -30,6 +31,11 @@ This application contains a demo of continuous delivery pipeline using Deis Work
   * [deis](https://deis.com/docs/workflow/quickstart/install-cli-tools/)
   * [helm](https://github.com/kubernetes/helm/blob/master/docs/quickstart.md)
   
+### Prepare the repo
+  
+* Fork it to somewhere you can access.
+* Get an accessible external docker registry. For demo purposes you can use a public repo at http://bintray.com
+  
 ### Deis
 
 Before doing anything else, you need to register a user:
@@ -40,7 +46,7 @@ Before doing anything else, you need to register a user:
 You need to create two applications in your cluster:
 
     deis create tw-facter-staging --no-remote
-    deis create tw-facter --no-remote
+    deis create tw-facter --no-remote 
   
 ### Jenkins
 
@@ -51,11 +57,23 @@ Jenkins will be installed using [helm](https://helm.sh/):
     
 After helm has installed Jenkins into your cluster it will show you commands to retrieve the admin password and the URL for accessing it.
 
-Afterwards you have to create the following global secrets in jenkins:
+Afterwards you have to create the following secrets in jenkins:
 
 * **bintray-docker**: As "Username and Password", the username and password for accessing the registry.
 * **deis-token**: The token to access your Deis Workflow cluster. Can be retrieved from ~/.deis/config.json after logging in.
 
+Afterward go to "Manage Jenkins" -> "Configure System" and Scroll Down to "Kubernetes Pod Templates". Add the follwing:
+
+* Change "Docker image" to `nbyl-docker-docker.bintray.io/jnlp-slave:2.52`
+* Add a "Host Path Volume" mapping `/var/run/docker.sock` to `/var/run/docker.sock`
+
 ### Create the Build Job
 
-(TODO)
+Create a new "Multibranch Pipeline" build job and a the repository url as the branch source. 
+
+## heroku
+
+This application can also be deployed to heroku using this button:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
