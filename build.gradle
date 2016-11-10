@@ -45,9 +45,9 @@ docker {
     apiVersion System.getenv('DOCKER_API_VERSION')
 
     registryCredentials {
-        url = 'https://nbyl-docker-docker.bintray.io'
-        username = System.getenv('BINTRAY_USER')
-        password = System.getenv('BINTRAY_KEY')
+        url = "http://${registryLocation}"
+        //username = System.getenv('BINTRAY_USER')
+        //password = System.getenv('BINTRAY_KEY')
     }
 }
 
@@ -75,19 +75,19 @@ task createDockerfile(type: Dockerfile) {
 task buildImage(type: DockerBuildImage) {
     dependsOn createDockerfile
     inputDir = createDockerfile.destFile.parentFile
-    tag = "nbyl-docker-docker.bintray.io/12factor-demo:${project.version}"
+    tag = "${registryLocation}/12factor-demo:${project.version}"
 }
 
 task publishImage(type: DockerPushImage) {
     dependsOn buildImage
-    imageName = "nbyl-docker-docker.bintray.io/12factor-demo:${project.version}"
+    imageName = "${registryLocation}/12factor-demo:${project.version}"
 }
 
 task deploy(type: org._10ne.gradle.rest.RestTask) {
     httpMethod = 'post'
-    uri = "http://deis.app.nicolas-byl.eu/v2/apps/${appName}/builds"
+    uri = "${deisControllerUrl}/v2/apps/${appName}/builds"
     requestBody = [
-            image: "nbyl-docker-docker.bintray.io/12factor-demo:${project.version}".toString(),
+            image: "${registryLocation}/12factor-demo:${project.version}".toString(),
             procfile: [
                     web: 'java -Djava.security.egd=file:/dev/./urandom -jar /app.jar'
             ]
