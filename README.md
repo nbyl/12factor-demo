@@ -4,9 +4,9 @@ This is a demo application for a [12 factor application](http://12factor.net/) b
 
 It shows some deployments for Deis Workflow in it's branches:
 
-* [Buildpack Deployment](https://deis.com/docs/workflow/applications/using-buildpacks/): https://github.com/nbyl/12factor-demo
-* [Dockerfile Deployment](https://deis.com/docs/workflow/applications/using-dockerfiles/): https://github.com/nbyl/12factor-demo/tree/dockerfile
-* [Docker Image Deployment](https://deis.com/docs/workflow/applications/using-docker-images/): https://github.com/nbyl/12factor-demo/tree/jenkins-ci 
+* [Buildpack Deployment](https://deis.com/docs/workflow/applications/using-buildpacks/): [master](https://github.com/nbyl/12factor-demo)
+* [Dockerfile Deployment](https://deis.com/docs/workflow/applications/using-dockerfiles/): [dockerfile](https://github.com/nbyl/12factor-demo/tree/dockerfile)
+* [Docker Image Deployment](https://deis.com/docs/workflow/applications/using-docker-images/): [jenkins-ci](https://github.com/nbyl/12factor-demo/tree/jenkins-ci) 
 
 ## Deis Workflow
 
