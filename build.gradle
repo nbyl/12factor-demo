@@ -36,6 +36,9 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
+    maven {
+        url 'http://nexus.default.svc.cluster.local:8081/repository/maven-central/'
+    }
     mavenCentral()
 }
 
