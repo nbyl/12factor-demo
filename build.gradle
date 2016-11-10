@@ -3,6 +3,9 @@ buildscript {
         springBootVersion = '1.4.1.RELEASE'
     }
     repositories {
+        maven {
+            url 'http://nexus.default.svc.cluster.local:8081/repository/maven-central/'
+        }
         mavenCentral()
         jcenter()
         maven {
