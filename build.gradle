@@ -4,7 +4,7 @@ buildscript {
     }
     repositories {
         maven {
-            url 'http://nexus.default.svc.cluster.local:8081/repository/maven-central/'
+            url 'http://nexus.default.svc.cluster.local:8081/repository/maven-public/'
         }
         mavenCentral()
         jcenter()
@@ -40,7 +40,7 @@ targetCompatibility = 1.8
 
 repositories {
     maven {
-        url 'http://nexus.default.svc.cluster.local:8081/repository/maven-central/'
+        url 'http://nexus.default.svc.cluster.local:8081/repository/maven-public/'
     }
     mavenCentral()
 }
@@ -50,6 +50,8 @@ docker {
 
     registryCredentials {
         url = "http://${registryLocation}"
+        username = System.getenv('BINTRAY_USER')
+        password = System.getenv('BINTRAY_KEY')
     }
 }
 
