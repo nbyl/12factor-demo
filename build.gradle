@@ -40,7 +40,9 @@ repositories {
 }
 
 docker {
-    url 'unix:///var/run/docker.sock'
+    url System.getenv('DOCKER_HOST')
+    certPath System.getenv('DOCKER_CERT_PATH')
+    apiVersion System.getenv('DOCKER_API_VERSION')
 
     registryCredentials {
         url = 'https://nbyl-docker-docker.bintray.io'
