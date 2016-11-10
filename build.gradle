@@ -46,14 +46,10 @@ repositories {
 }
 
 docker {
-    url System.getenv('DOCKER_HOST')
-    certPath new File(System.getenv('DOCKER_CERT_PATH'))
-    apiVersion System.getenv('DOCKER_API_VERSION')
+    url 'unix:///var/run/docker.sock'
 
     registryCredentials {
         url = "http://${registryLocation}"
-        //username = System.getenv('BINTRAY_USER')
-        //password = System.getenv('BINTRAY_KEY')
     }
 }
 
