@@ -16,4 +16,6 @@ RUN chmod u+x /app.jar
 WORKDIR /
 RUN rm -rf /tmp/build
 
+EXPOSE 8080
+
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
